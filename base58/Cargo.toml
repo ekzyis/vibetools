@@ -1,0 +1,8 @@
+[package]
+name = "base58"
+version = "0.1.0"
+edition = "2021"
+description = "Base58 / Base58Check, hand-written from scratch."
+
+[dependencies]
+sha256 = { path = "../sha256" }

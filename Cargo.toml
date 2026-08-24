@@ -1,0 +1,6 @@
+# Workspace for the Rust vibetools. Each vibetool is a crate in its own folder;
+# a crate may expose modules, binary targets, or both, and may depend on other
+# vibetools. They share one target/ and Cargo.lock. Add new crates as `members`.
+[workspace]
+resolver = "2"
+members = ["sha256", "base58", "bip32"]

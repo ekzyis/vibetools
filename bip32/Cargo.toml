@@ -1,0 +1,13 @@
+[package]
+name = "bip32"
+version = "0.1.0"
+edition = "2021"
+description = "BIP-32 key tools. Targets: bip32-decode (extended-key xpub/xprv decoder)."
+
+# A vibetool can build many targets; add more [[bin]] entries as the toolset grows.
+[[bin]]
+name = "bip32-decode"
+path = "src/main.rs"
+
+[dependencies]
+base58 = { path = "../base58" }
