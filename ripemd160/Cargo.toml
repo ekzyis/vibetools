@@ -1,0 +1,8 @@
+[package]
+name = "ripemd160"
+version = "0.1.0"
+edition = "2021"
+description = "RIPEMD-160, hand-written from scratch, plus Bitcoin's HASH160."
+
+[dependencies]
+sha256 = { path = "../sha256" }

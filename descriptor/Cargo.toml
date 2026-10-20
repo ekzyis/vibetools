@@ -1,0 +1,21 @@
+[package]
+name = "descriptor"
+version = "0.1.0"
+edition = "2021"
+description = "Output script descriptors. Targets: descriptor-derive (descriptor to addresses)."
+
+[[bin]]
+name = "descriptor-derive"
+path = "src/main.rs"
+
+[lib]
+name = "descriptor"
+path = "src/lib.rs"
+
+[dependencies]
+base58 = { path = "../base58" }
+bech32 = { path = "../bech32" }
+bip32 = { path = "../bip32" }
+ripemd160 = { path = "../ripemd160" }
+secp256k1 = { path = "../secp256k1" }
+sha256 = { path = "../sha256" }

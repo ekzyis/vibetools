@@ -9,5 +9,12 @@ description = "BIP-32 key tools. Targets: bip32-decode (extended-key xpub/xprv d
 name = "bip32-decode"
 path = "src/main.rs"
 
+[lib]
+name = "bip32"
+path = "src/lib.rs"
+
 [dependencies]
 base58 = { path = "../base58" }
+ripemd160 = { path = "../ripemd160" }
+secp256k1 = { path = "../secp256k1" }
+sha512 = { path = "../sha512" }

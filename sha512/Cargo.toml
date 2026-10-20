@@ -1,0 +1,7 @@
+[package]
+name = "sha512"
+version = "0.1.0"
+edition = "2021"
+description = "SHA-512 (FIPS 180-4) and HMAC-SHA-512 (RFC 2104), hand-written from scratch."
+
+[dependencies]

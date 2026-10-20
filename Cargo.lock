@@ -10,12 +10,46 @@ dependencies = [
 ]
 
 [[package]]
+name = "bech32"
+version = "0.1.0"
+
+[[package]]
 name = "bip32"
 version = "0.1.0"
 dependencies = [
  "base58",
+ "ripemd160",
+ "secp256k1",
+ "sha512",
 ]
 
 [[package]]
+name = "descriptor"
+version = "0.1.0"
+dependencies = [
+ "base58",
+ "bech32",
+ "bip32",
+ "ripemd160",
+ "secp256k1",
+ "sha256",
+]
+
+[[package]]
+name = "ripemd160"
+version = "0.1.0"
+dependencies = [
+ "sha256",
+]
+
+[[package]]
+name = "secp256k1"
+version = "0.1.0"
+
+[[package]]
 name = "sha256"
+version = "0.1.0"
+
+[[package]]
+name = "sha512"
 version = "0.1.0"

@@ -1,9 +1,12 @@
 # bip32
 
-BIP-32 key tools. Currently one target, `bip32-decode`, which decodes a BIP-32
-extended key (`xpub`/`xprv`, plus testnet `tpub`/`tprv`) into its components.
-Reuses the `sha256` and `base58` vibetools (via `base58`); the field parsing is
-hand-written here.
+BIP-32 hierarchical deterministic keys: the serialization format, and the child
+key derivation that turns one key into a tree of them. One binary target,
+`bip32-decode`, which decodes an extended key into its components; the
+derivation is used as a library by the `descriptor` vibetool.
+
+Reuses the `base58`, `sha512` (HMAC), `ripemd160` (fingerprints) and
+`secp256k1` (public keys, point addition) vibetools.
 
 ## Usage
 
@@ -36,7 +39,21 @@ Exit codes: `0` success, `1` parse/checksum error, `2` no input.
 cargo test -p bip32
 ```
 
-Decoding is checked against BIP-32 "Test Vectors" (test vector 1, chain m).
+Checked against the BIP-32 "Test Vectors": test vectors 1 to 4 are walked
+chain by chain, deriving each child from the private parent *and*, where the
+index is not hardened, from the public parent, comparing both serializations at
+every step. Test vector 5's keys are all rejected.
+
+## API
+
+```rust
+bip32::ExtendedKey::parse(&str) -> Result<ExtendedKey, String>
+bip32::ExtendedKey::serialize(&self) -> String
+bip32::ExtendedKey::derive_child(&self, index: u32) -> Result<ExtendedKey, String>
+bip32::ExtendedKey::derive_path(&self, path: &[u32]) -> Result<ExtendedKey, String>
+bip32::ExtendedKey::{to_public, public_key, private_key, fingerprint, network, kind, prefix}
+bip32::HARDENED  // 0x8000_0000; add it to an index to harden it
+```
 
 ## Serialization format
 
@@ -44,8 +61,18 @@ An extended key is Base58Check over 78 bytes: version (4), depth (1), parent
 fingerprint (4), child number (4), chain code (32), key data (33). A child
 index ≥ 2³¹ is hardened and shown as `i'`.
 
+Besides BIP-32's own `xpub`/`xprv` and `tpub`/`tprv`, the SLIP-132 version bytes
+(`ypub`, `zpub`, `upub`, `vpub`, `Ypub`, `Zpub`, …) are recognized, since that
+is how wallets export accounts. The script type they imply is advice for a
+wallet, not part of the key, so it is not tracked.
+
 ## Scope
 
-A decoder only: it decodes and verifies the checksum. It does no elliptic-curve
-math — no key derivation, no checking that a public key is a valid secp256k1
-point.
+Parsing, serializing and deriving public and private children. Deriving a
+hardened child needs the private key, as BIP-32 intends. `parse` rejects the
+serializations BIP-32 calls invalid: unknown version bytes, key data that does
+not match the version, keys off the curve or out of range, and a master key
+claiming to have a parent.
+
+No signing, and no seed-to-master-key step (that is BIP-39's and BIP-32's
+`HMAC-SHA512("Bitcoin seed", seed)`, not implemented here).

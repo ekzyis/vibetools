@@ -2,11 +2,9 @@
 //!
 //! Reads the key from the first CLI argument, or from stdin if none is given.
 
-mod extended_key;
-
 use std::io::Read;
 
-use extended_key::ExtendedKey;
+use bip32::ExtendedKey;
 
 fn main() {
     let key = match read_input() {

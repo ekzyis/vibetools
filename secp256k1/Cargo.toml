@@ -1,0 +1,7 @@
+[package]
+name = "secp256k1"
+version = "0.1.0"
+edition = "2021"
+description = "secp256k1 field and curve arithmetic, hand-written from scratch."
+
+[dependencies]
